@@ -1,13 +1,18 @@
+import { config } from 'dotenv'
+
 import { PrismaClient } from '@prisma/client'
 import { execSync } from 'child_process'
 import { randomUUID } from 'crypto'
-import 'dotenv/config'
+
+config({ path: '.env', override: true })
+config({ path: '.env.test', override: true })
 
 const prisma = new PrismaClient()
+const schemaId = randomUUID()
 
 function generateUniqueDatabaseURL(schemaId: string) {
   if (!process.env.DATABASE_URL) {
-    throw new Error('Please provide a DATABASE_URL environment variable.')
+    throw new Error('Please provide a DATABASE_URL environment variable')
   }
 
   const url = new URL(process.env.DATABASE_URL)
@@ -16,8 +21,6 @@ function generateUniqueDatabaseURL(schemaId: string) {
 
   return url.toString()
 }
-
-const schemaId = randomUUID()
 
 beforeAll(async () => {
   const databaseURL = generateUniqueDatabaseURL(schemaId)

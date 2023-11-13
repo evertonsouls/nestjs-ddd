@@ -5,6 +5,7 @@ import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { AttachmentFactory } from 'test/factories/make-attachment'
 import { QuestionFactory } from 'test/factories/make-question'
 import { StudentFactory } from 'test/factories/make-student'
 
@@ -13,12 +14,13 @@ describe('Answer question (E2E)', () => {
   let prisma: PrismaService
   let studentFactory: StudentFactory
   let questionFactory: QuestionFactory
+  let attachmentFactory: AttachmentFactory
   let jwt: JwtService
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [StudentFactory, QuestionFactory],
+      providers: [StudentFactory, QuestionFactory, AttachmentFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
@@ -26,6 +28,7 @@ describe('Answer question (E2E)', () => {
     jwt = moduleRef.get(JwtService)
     studentFactory = moduleRef.get(StudentFactory)
     questionFactory = moduleRef.get(QuestionFactory)
+    attachmentFactory = moduleRef.get(AttachmentFactory)
 
     await app.init()
   })
@@ -36,6 +39,11 @@ describe('Answer question (E2E)', () => {
       email: 'johndoe@example.com',
       password: '123456',
     })
+
+    const [attachment1, attachment2] = await Promise.all([
+      attachmentFactory.makePrismaAttachment(),
+      attachmentFactory.makePrismaAttachment(),
+    ])
 
     const question = await questionFactory.makePrismaQuestion({
       authorId: user.id,
@@ -50,9 +58,10 @@ describe('Answer question (E2E)', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         content: 'New answer content',
+        attachments: [attachment1.id.toValue(), attachment2.id.toValue()],
       })
 
-    const questionOnDatabase = await prisma.answer.findFirst({
+    const answerOnDatabase = await prisma.answer.findFirst({
       where: {
         questionId,
         content: 'New answer content',
@@ -60,6 +69,14 @@ describe('Answer question (E2E)', () => {
     })
 
     expect(response.statusCode).toBe(201)
-    expect(questionOnDatabase).toBeTruthy()
+    expect(answerOnDatabase).toBeTruthy()
+
+    const attachmentsOnDatabase = await prisma.attachment.findMany({
+      where: {
+        answerId: answerOnDatabase?.id,
+      },
+    })
+
+    expect(attachmentsOnDatabase).toHaveLength(2)
   })
 })

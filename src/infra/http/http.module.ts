@@ -16,9 +16,11 @@ import { FetchQuestionCommentsUseCase } from '@/domain/forum/application/use-cas
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/fetch-recent-questions'
 import { GetQuestionBySlugUseCase } from '@/domain/forum/application/use-cases/get-question-by-slug'
 import { RegisterStudentUseCase } from '@/domain/forum/application/use-cases/register-student'
+import { UploadAndCreateAttachmentUseCase } from '@/domain/forum/application/use-cases/upload-and-create-attachment'
 import { Module } from '@nestjs/common'
 import { CryptographyModule } from '../cryptography/cryptography.module'
 import { DatabaseModule } from '../database/database.module'
+import { StorageModule } from '../storage/storage.module'
 import { AnswerQuestionController } from './controller/answer-question.controller'
 import { AuthenticateController } from './controller/authenticate.controller'
 import { ChooseQuestionBestAnswerController } from './controller/choose-question-best-answer.controller'
@@ -37,9 +39,10 @@ import { FetchQuestionAnswersController } from './controller/fetch-question-answ
 import { FetchQuestionCommentsController } from './controller/fetch-question-comments.controller'
 import { FetchRecentQuestionsController } from './controller/fetch-recent-questions.controller'
 import { GetQuestionBySlugController } from './controller/get-question-by-slug.controller'
+import { UploadAttachmentController } from './controller/upload-attachment.controller'
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule],
+  imports: [DatabaseModule, CryptographyModule, StorageModule],
   controllers: [
     AuthenticateController,
     CreateAccountController,
@@ -59,6 +62,7 @@ import { GetQuestionBySlugController } from './controller/get-question-by-slug.c
     DeleteAnswerCommentController,
     FetchQuestionCommentsController,
     FetchAnswerCommentsController,
+    UploadAttachmentController,
   ],
   providers: [
     CreateQuestionUseCase,
@@ -79,6 +83,7 @@ import { GetQuestionBySlugController } from './controller/get-question-by-slug.c
     DeleteAnswerCommentUseCase,
     FetchQuestionCommentsUseCase,
     FetchAnswerCommentsUseCase,
+    UploadAndCreateAttachmentUseCase,
   ],
 })
 export class HttpModule {}
