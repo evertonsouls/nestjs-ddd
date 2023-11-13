@@ -1,0 +1,8 @@
+{
+  "extends": "@interaktu/eslint-config/node",
+  "rules": {
+    "no-useless-constructor": "off",
+    "dot-notation": "off",
+    "no-new": "off"
+  }
+}
