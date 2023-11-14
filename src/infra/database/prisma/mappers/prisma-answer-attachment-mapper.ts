@@ -41,8 +41,6 @@ export class PrismaAnswerAttachmentMapper {
       attachment.attachmentId.toString(),
     )
 
-    console.log(attachmentIds)
-
     return {
       where: {
         id: { in: attachmentIds },

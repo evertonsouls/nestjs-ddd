@@ -39,11 +39,12 @@ model Question {
   authorId     String    @map("author_id")
   bestAnswerId String?   @unique @map("best_answer_id")
 
-  author     User         @relation(fields: [authorId], references: [id])
-  bestAnswer Answer?      @relation("bestAnswer", fields: [bestAnswerId], references: [id])
-  answers    Answer[]
-  Comment    Comment[]
-  Attachment Attachment[]
+  author     User    @relation(fields: [authorId], references: [id])
+  bestAnswer Answer? @relation("bestAnswer", fields: [bestAnswerId], references: [id])
+
+  answers     Answer[]
+  comments    Comment[]
+  attachments Attachment[]
 
   @@map("questions")
 }
@@ -59,11 +60,11 @@ model Answer {
   author   User   @relation(fields: [authorId], references: [id])
   authorId String @map("author_id")
 
-  Question   Question? @relation(fields: [questionId], references: [id])
+  question   Question? @relation(fields: [questionId], references: [id])
   questionId String    @map("question_id")
 
-  Comment    Comment[]
-  Attachment Attachment[]
+  comments    Comment[]
+  attachments Attachment[]
 
   @@map("answers")
 }
