@@ -17,6 +17,7 @@ import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-case
 import { GetQuestionBySlugUseCase } from '@/domain/forum/application/use-cases/get-question-by-slug'
 import { RegisterStudentUseCase } from '@/domain/forum/application/use-cases/register-student'
 import { UploadAndCreateAttachmentUseCase } from '@/domain/forum/application/use-cases/upload-and-create-attachment'
+import { ReadNotificationUseCase } from '@/domain/notification/application/use-cases/read-notification'
 import { Module } from '@nestjs/common'
 import { CryptographyModule } from '../cryptography/cryptography.module'
 import { DatabaseModule } from '../database/database.module'
@@ -39,6 +40,7 @@ import { FetchQuestionAnswersController } from './controller/fetch-question-answ
 import { FetchQuestionCommentsController } from './controller/fetch-question-comments.controller'
 import { FetchRecentQuestionsController } from './controller/fetch-recent-questions.controller'
 import { GetQuestionBySlugController } from './controller/get-question-by-slug.controller'
+import { ReadNotificationController } from './controller/read-notification.controller'
 import { UploadAttachmentController } from './controller/upload-attachment.controller'
 
 @Module({
@@ -63,6 +65,7 @@ import { UploadAttachmentController } from './controller/upload-attachment.contr
     FetchQuestionCommentsController,
     FetchAnswerCommentsController,
     UploadAttachmentController,
+    ReadNotificationController,
   ],
   providers: [
     CreateQuestionUseCase,
@@ -84,6 +87,7 @@ import { UploadAttachmentController } from './controller/upload-attachment.contr
     FetchQuestionCommentsUseCase,
     FetchAnswerCommentsUseCase,
     UploadAndCreateAttachmentUseCase,
+    ReadNotificationUseCase,
   ],
 })
 export class HttpModule {}
