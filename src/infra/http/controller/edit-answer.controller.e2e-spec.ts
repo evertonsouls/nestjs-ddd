@@ -63,9 +63,9 @@ describe('Edit answer (E2E)', () => {
     })
 
     const [attachment1, attachment2, attachment3] = await Promise.all([
-      attachmentFactory.makePrismaAttachment(),
-      attachmentFactory.makePrismaAttachment(),
-      attachmentFactory.makePrismaAttachment(),
+      attachmentFactory.makePrismaQuestionAttachment(),
+      attachmentFactory.makePrismaQuestionAttachment(),
+      attachmentFactory.makePrismaQuestionAttachment(),
     ])
 
     await Promise.all([

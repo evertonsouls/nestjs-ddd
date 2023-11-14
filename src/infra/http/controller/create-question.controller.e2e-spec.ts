@@ -38,8 +38,8 @@ describe('Create question (E2E)', () => {
     })
 
     const [attachment1, attachment2] = await Promise.all([
-      attachmentFactory.makePrismaAttachment(),
-      attachmentFactory.makePrismaAttachment(),
+      attachmentFactory.makePrismaQuestionAttachment(),
+      attachmentFactory.makePrismaQuestionAttachment(),
     ])
 
     const accessToken = await jwt.signAsync({ sub: user.id.toValue() })

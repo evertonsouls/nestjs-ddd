@@ -41,8 +41,8 @@ describe('Answer question (E2E)', () => {
     })
 
     const [attachment1, attachment2] = await Promise.all([
-      attachmentFactory.makePrismaAttachment(),
-      attachmentFactory.makePrismaAttachment(),
+      attachmentFactory.makePrismaQuestionAttachment(),
+      attachmentFactory.makePrismaQuestionAttachment(),
     ])
 
     const question = await questionFactory.makePrismaQuestion({
